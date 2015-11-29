@@ -31,7 +31,7 @@ def ddebug(msg, err=None): # pragma: no cover
         err = ''.join(traceback.format_exception(*err))
     else:
         err = ''
-    sys.__stdout__.write("({}) {} {}".format(os.getpid(), msg, err)+'\n')
+    sys.__stdout__.write("({0}) {1} {2}".format(os.getpid(), msg, err)+'\n')
     sys.__stdout__.flush()
 
 
@@ -255,7 +255,7 @@ def poolRunner(target, queue, coverage_number=None, omit_patterns=[]): # pragma:
     # Each pool starts its own coverage, later combined by the main process.
     if coverage_number and coverage:
         cov = coverage.coverage(
-                data_file='.coverage.{}_{}'.format(
+                data_file='.coverage.{0}_{1}'.format(
                     coverage_number, random.randint(0, 10000)),
                 omit=omit_patterns)
         cov._warn_no_data = False
@@ -312,7 +312,7 @@ def poolRunner(target, queue, coverage_number=None, omit_patterns=[]): # pragma:
                 queue.put(result)
     else:
         # loadTargets() returned an object without a run() method, probably None
-        description = 'Test loader returned an un-runnable object.  Is "{}" importable from your current location?  Maybe you forgot an __init__.py in your directory?  Unrunnable object looks like: {} of type {} with dir {}'.format(
+        description = 'Test loader returned an un-runnable object.  Is "{0}" importable from your current location?  Maybe you forgot an __init__.py in your directory?  Unrunnable object looks like: {1} of type {2} with dir {3}'.format(
                 target, str(test), type(test), dir(test))
         err = (TypeError, TypeError(description), None)
         t             = ProtoTest()

@@ -729,7 +729,7 @@ class TestGreenTestResultAdds(unittest.TestCase):
         test = proto_test(MagicMock())
         reason = "Twisted is odd"
         err = proto_error(err)
-        err.traceback_lines = ["UnsupportedTrialFeature: ('skip', '{}')"
+        err.traceback_lines = ["UnsupportedTrialFeature: ('skip', '{0}')"
                 .format(reason)]
         self.gtr.addFailure(test, err)
         self.gtr._reportOutcome.assert_called_with(

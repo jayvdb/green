@@ -15,8 +15,8 @@ if sys.version_info[0] == 2: # pragma nocover
 
 def pretty_version():
     python_version = ".".join([str(x) for x in sys.version_info[0:3]])
-    ver_str = "Green {}".format(__version__)
+    ver_str = "Green {0}".format(__version__)
     if coverage:
-        ver_str = "{}, Coverage {}".format(ver_str, coverage.__version__)
-    ver_str = "{}, Python {}".format(ver_str, python_version)
+        ver_str = "{0}, Coverage {1}".format(ver_str, coverage.__version__)
+    ver_str = "{0}, Python {1}".format(ver_str, python_version)
     return ver_str

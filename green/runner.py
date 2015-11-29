@@ -40,16 +40,16 @@ class InitializerOrFinalizer:
             __import__(self.module_part)
             loaded_function = getattr(modules[self.module_part], self.function_part, None)
         except Exception as e:
-            raise InitializerOrFinalizerError("Couldn't load '{}' - got: {}"
+            raise InitializerOrFinalizerError("Couldn't load '{0}' - got: {1}"
                     .format(self.function_part, str(e)))
         if not loaded_function:
             raise InitializerOrFinalizerError(
-                    "Loaded module '{}', but couldn't find function '{}'"
+                    "Loaded module '{0}', but couldn't find function '{1}'"
                     .format(self.module_part, self.function_part))
         try:
             loaded_function()
         except Exception as e:
-            raise InitializerOrFinalizerError("Error running '{}' - got: {}"
+            raise InitializerOrFinalizerError("Error running '{0}' - got: {1}"
                     .format(self.function_part, str(e)))
 
 

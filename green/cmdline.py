@@ -4,7 +4,7 @@ import sys
 
 try: # pragma: no cover
     import coverage
-    coverage_version = "Coverage {}".format(coverage.__version__)
+    coverage_version = "Coverage {0}".format(coverage.__version__)
 except: # pragma: no cover
     coverage = None
     coverage_version = "Coverage Not Installed"

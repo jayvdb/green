@@ -156,7 +156,7 @@ def findDottedModuleAndParentDir(file_path):
     be returned.
     """
     if not os.path.isfile(file_path):
-        raise ValueError("'{}' is not a file.".format(file_path))
+        raise ValueError("'{0}' is not a file.".format(file_path))
     parent_dir = os.path.dirname(os.path.abspath(file_path))
     dotted_module = os.path.basename(file_path).replace('.py', '')
     while isPackage(parent_dir):
@@ -211,7 +211,7 @@ def loadFromModuleFilename(filename):
     try:
         __import__(dotted_module)
         loaded_module = sys.modules[dotted_module]
-        debug("Imported {}".format(dotted_module), 2)
+        debug("Imported {0}".format(dotted_module), 2)
     except unittest.case.SkipTest as e:
         # TODO: #25 - Right now this mimics the behavior in unittest.  Lets
         # refactor it and simplify it after we make sure it works.
@@ -229,7 +229,7 @@ def loadFromModuleFilename(filename):
         # TODO: #25 - Right now this mimics the behavior in unittest.  Lets
         # refactor it and simplify it after we make sure it works.
         # This is a cause of the traceback mangling I observed.
-        message = ('Failed to import {} computed from filename {}\n{}').format(
+        message = ('Failed to import {0} computed from filename {1}\n{2}').format(
                        dotted_module, filename, traceback.format_exc())
         def testFailure(self):
             raise ImportError(message)
@@ -260,7 +260,7 @@ def discover(current_path, file_pattern='test*.py'):
     current_abspath = os.path.abspath(current_path)
     if not os.path.isdir(current_abspath):
         raise ImportError(
-                "'{}' is not a directory".format(str(current_path)))
+                "'{0}' is not a directory".format(str(current_path)))
     suite = GreenTestSuite()
     for file_or_dir_name in sorted(os.listdir(current_abspath)):
         path = os.path.join(current_abspath, file_or_dir_name)
@@ -306,11 +306,11 @@ def loadTargets(targets, file_pattern='test*.py'):
     for target in targets:
         suite = loadTarget(target, file_pattern)
         if not suite:
-            debug("Found 0 tests for target '{}'".format(target))
+            debug("Found 0 tests for target '{0}'".format(target))
             continue
         suites.append(suite)
         num_tests = suite.countTestCases()
-        debug("Found {} test{} for target '{}'".format(
+        debug("Found {0} test{1} for target '{2}'".format(
             num_tests, '' if (num_tests == 1) else 's', target))
 
     if suites:
@@ -322,7 +322,7 @@ def loadTargets(targets, file_pattern='test*.py'):
 def loadTarget(target, file_pattern='test*.py'):
     """
     """
-    debug("Attempting to load target '{}' with file_pattern '{}'".format(
+    debug("Attempting to load target '{0}' with file_pattern '{1}'".format(
         target, file_pattern))
     loader = unittest.TestLoader()
     loader.suiteClass = GreenTestSuite
@@ -361,7 +361,7 @@ def loadTarget(target, file_pattern='test*.py'):
             continue
         tests = discover(candidate, file_pattern=file_pattern)
         if tests and tests.countTestCases():
-            debug("Load method: DISCOVER - {}".format(candidate))
+            debug("Load method: DISCOVER - {0}".format(candidate))
             return tests
 
 
@@ -377,9 +377,9 @@ def loadTarget(target, file_pattern='test*.py'):
                     del(tests._tests[index])
 
         except Exception as e:
-            debug("IGNORED exception: {}".format(e))
+            debug("IGNORED exception: {0}".format(e))
         if tests and tests.countTestCases():
-            debug("Load method: DOTTED OBJECT - {}".format(target))
+            debug("Load method: DOTTED OBJECT - {0}".format(target))
             return tests
 
 
@@ -406,13 +406,13 @@ def loadTarget(target, file_pattern='test*.py'):
             # refactor it and simplify it after we make sure it works.
             # This is a cause of the traceback mangling I observed.
             try:
-                message = ('Failed to import "{}":\n{}').format(
+                message = ('Failed to import "{0}":\n{1}').format(
                                dotted_path, traceback.format_exc())
             # If the line that caused the exception has unicode literals in it
             # anywhere, then python 2.7 will crash on traceback.format_exc().
             # Python 3 is ok.
             except UnicodeDecodeError: # pragma: no cover
-                message = ('Failed to import "{}", and the import traceback '
+                message = ('Failed to import "{0}", and the import traceback '
                     'has a unicode decode error, so I can\'t display it.'
                     .format(dotted_path))
             def testFailure(self):
@@ -425,7 +425,7 @@ def loadTarget(target, file_pattern='test*.py'):
         if need_cleanup:
             sys.path.remove(cwd)
         if tests and tests.countTestCases():
-            debug("Load method: FILE - {}".format(candidate))
+            debug("Load method: FILE - {0}".format(candidate))
             return tests
 
     return None

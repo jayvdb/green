@@ -24,7 +24,7 @@ except:                     # pragma: no cover
     import ConfigParser as configparser
 try:                        # pragma: no cover
     import coverage
-    coverage_version = "Coverage {}".format(coverage.__version__)
+    coverage_version = "Coverage {0}".format(coverage.__version__)
 except:                     # pragma: no cover
     coverage = None
     coverage_version = "Coverage Not Installed"
@@ -242,7 +242,7 @@ def parseArguments(): # pragma: no cover
         default=argparse.SUPPRESS))
 
     cov_args = parser.add_argument_group(
-        "Coverage Options ({})".format(coverage_version))
+        "Coverage Options ({0})".format(coverage_version))
     store_opt(cov_args.add_argument('-r', '--run-coverage', action='store_true',
         help=("Produce coverage output."), default=argparse.SUPPRESS))
     store_opt(cov_args.add_argument('-O', '--clear-omit', action='store_true',
