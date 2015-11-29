@@ -167,7 +167,7 @@ def findDottedModuleAndParentDir(file_path):
     while isPackage(parent_dir):
         dotted_module = os.path.basename(parent_dir) + '.' + dotted_module
         parent_dir = os.path.dirname(parent_dir)
-    debug("Dotted module: {} -> {}".format(
+    debug("Dotted module: {0} -> {1}".format(
         parent_dir, dotted_module), 2)
     return (dotted_module, parent_dir)
 
@@ -183,13 +183,13 @@ def isTestCaseDisabled(test_case_class, method_name):
 
 
 def loadFromTestCase(test_case_class):
-    debug("Examining test case {}".format(test_case_class.__name__), 3)
+    debug("Examining test case {0}".format(test_case_class.__name__), 3)
     test_case_names = list(filter(
         lambda attrname: (attrname.startswith('test') and
                           callable(getattr(test_case_class, attrname)) and
                           not isTestCaseDisabled(test_case_class, attrname)),
         dir(test_case_class)))
-    debug("Test case names: {}".format(test_case_names))
+    debug("Test case names: {0}".format(test_case_names))
     test_case_names.sort(
             key=functools.cmp_to_key(lambda x, y: (x > y) - (x < y)))
     if not test_case_names and hasattr(test_case_class, 'runTest'):
@@ -198,7 +198,7 @@ def loadFromTestCase(test_case_class):
 
 
 def loadFromModule(module):
-    debug("Examining module {} for test cases".format(module.__name__), 2)
+    debug("Examining module {0} for test cases".format(module.__name__), 2)
     test_cases = []
     for item in dir(module):
         obj = getattr(module, item)
