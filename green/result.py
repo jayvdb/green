@@ -1,10 +1,15 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from collections import OrderedDict
 from math import ceil
 import time
 import traceback
+
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 from unittest.result import failfast
 
 from green.output import Colors, debug

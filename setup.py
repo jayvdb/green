@@ -15,6 +15,8 @@ dependencies = [
 ]
 if sys.version_info[0] == 2:
     dependencies.append('mock')
+if sys.version_info < (2, 6):
+    dependencies.append('ordereddict')
 
 # Actual setup call
 setup(

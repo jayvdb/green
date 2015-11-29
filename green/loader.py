@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from collections import OrderedDict
+
 from fnmatch import fnmatch
 import functools
 import glob
@@ -9,6 +9,11 @@ import re
 import sys
 import unittest
 import traceback
+
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
 
 from green.output import debug
 from green.result import proto_test
