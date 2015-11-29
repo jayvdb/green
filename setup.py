@@ -19,6 +19,7 @@ if sys.version_info < (2, 7):
     dependencies.append('importlib')
     dependencies.append('ordereddict')
     dependencies.append('unittest2')
+    dependencies.append('jaraco.compat')
 
 # Actual setup call
 setup(
