@@ -1,7 +1,11 @@
 from __future__ import unicode_literals
 import copy
 import sys
-import unittest
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 from green.config import default_args
 from green.output import Colors, GreenStream

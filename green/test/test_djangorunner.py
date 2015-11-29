@@ -5,7 +5,12 @@ try:
 except:
     from StringIO import StringIO
 import sys
-import unittest
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+
 try:
     from unittest.mock import MagicMock, patch
 except:

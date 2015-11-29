@@ -2,7 +2,11 @@ import os
 import shutil
 import tempfile
 from textwrap import dedent
-import unittest
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 try:
     from unittest.mock import MagicMock

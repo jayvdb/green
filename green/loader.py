@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from builtins import str
 
 from fnmatch import fnmatch
 import functools
@@ -25,6 +24,11 @@ try:
     import unittest2
 except ImportError:
     unittest2 = None
+
+try:
+    SkipTest = unittest.SkipTest
+except AttributeError:
+    SkipTest = unittest2.SkipTest
 
 from green.output import debug
 from green.result import proto_test
@@ -227,7 +231,7 @@ def loadFromModuleFilename(filename):
         __import__(dotted_module)
         loaded_module = sys.modules[dotted_module]
         debug("Imported {0}".format(dotted_module), 2)
-    except unittest.SkipTest as e:
+    except SkipTest as e:
         # TODO: #25 - Right now this mimics the behavior in unittest.  Lets
         # refactor it and simplify it after we make sure it works.
         # This is a cause of the traceback mangling I observed.

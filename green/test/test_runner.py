@@ -7,8 +7,12 @@ import signal
 import sys
 import tempfile
 from textwrap import dedent
-import unittest
 import weakref
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 from green.config import default_args
 from green.exceptions import InitializerOrFinalizerError
@@ -315,7 +319,7 @@ class TestProcesses(unittest.TestCase):
             import unittest
             class SIGINTCase(unittest.TestCase):
                 def test00(self):
-                    os.kill({}, signal.SIGINT)
+                    os.kill({0}, signal.SIGINT)
             """.format(os.getpid())))
         fh.close()
         os.chdir(sub_tmpdir)
@@ -351,7 +355,7 @@ class TestProcesses(unittest.TestCase):
             import os
             import tempfile
             import unittest
-            import {}.some_module
+            import {0}.some_module
             class A(unittest.TestCase):
                 def setUp(self):
                     self.tmpdir = tempfile.gettempdir()

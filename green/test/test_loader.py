@@ -6,7 +6,12 @@ import shutil
 import sys
 import tempfile
 from textwrap import dedent
-import unittest
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+
 try:
     from unittest.mock import MagicMock
 except:
@@ -370,8 +375,12 @@ class TestLoadFromModuleFilename(unittest.TestCase):
         fh = open(filename, 'w')
         fh.write(dedent(
             """
-            import unittest
-            raise unittest.case.SkipTest
+            try:
+                import unittest2 as unittest
+            except ImportError:
+                import unittest
+
+            raise unittest.SkipTest
             class NotReached(unittest.TestCase):
                 def test_one(self):
                     pass
@@ -381,7 +390,7 @@ class TestLoadFromModuleFilename(unittest.TestCase):
         fh.close()
         suite = loader.loadFromModuleFilename(filename)
         self.assertEqual(suite.countTestCases(), 1)
-        self.assertRaises(unittest.case.SkipTest,
+        self.assertRaises(unittest.SkipTest,
                 getattr(suite._tests[0], suite._tests[0]._testMethodName))
 
 
@@ -583,7 +592,7 @@ class TestLoadTargets(unittest.TestCase):
         fh.write(dedent(
             """
             import unittest
-            import {}.target_module
+            import {0}.target_module
             class A(unittest.TestCase):
                 def testPass(self):
                     pass
