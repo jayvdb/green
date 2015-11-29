@@ -140,7 +140,13 @@ class LoggingDaemonlessPool(Pool):
 import platform
 import multiprocessing.pool
 from multiprocessing import util
-from multiprocessing.pool import MaybeEncodingError
+try:
+    from multiprocessing.pool import MaybeEncodingError
+except ImportError:
+    class MaybeEncodingError(Exception):
+        def __init__(self, exc, value):
+            super(MaybeEncodingError, self).__init__('dummy MaybeEncodingError')
+
 
 # Python 2 and 3 raise a different error when they exit
 if platform.python_version_tuple()[0] == '2': # pragma: no cover
