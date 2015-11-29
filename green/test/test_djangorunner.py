@@ -11,8 +11,12 @@ try:
 except:
     from mock import MagicMock, patch
 
-from green import djangorunner
 from green.config import mergeConfig
+
+try:
+    from green import djangorunner
+except (ImportError, SyntaxError):
+    djangorunner = None
 
 
 class TestDjangoMissing(unittest.TestCase):
@@ -28,6 +32,8 @@ class TestDjangoRunner(unittest.TestCase):
 
 
     def setUp(self):
+        if not djangorunner:
+            raise unittest.SkipTest("Django import failed")
         try:
             djangorunner.DjangoRunner()
         except ImportError:
