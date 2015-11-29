@@ -112,7 +112,12 @@ class LoggingDaemonlessPool(Pool):
                  finalargs=()):
         self._finalizer = finalizer
         self._finalargs = finalargs
-        super(LoggingDaemonlessPool, self).__init__(processes, initializer,
+        if sys.version_info < (2, 7):
+            super(LoggingDaemonlessPool, self).__init__(
+                processes, initializer, initargs)
+        else:
+            super(LoggingDaemonlessPool, self).__init__(
+                processes, initializer,
                 initargs, maxtasksperchild)
 
 
