@@ -56,7 +56,7 @@ def main(testing=False):
 
     # Add debug logging for stuff that happened before this point here
     if config.files_loaded:
-        debug("Loaded config file(s): {}".format(
+        debug("Loaded config file(s): {0}".format(
             ', '.join(config.files_loaded)))
 
     # Discover/Load the test suite

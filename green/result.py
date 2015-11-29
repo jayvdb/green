@@ -154,7 +154,7 @@ class BaseTestResult(object): # Breaks subclasses in 2.7 not inheriting object
         test = proto_test(test)
         if test.dotted_name in self.stdout_output:
             self.stream.write(
-                "\n{} for {}\n{}".format(
+                "\n{0} for {1}\n{2}".format(
                     self.colors.yellow('Captured stdout'),
                     self.colors.bold(test.dotted_name),
                     self.stdout_output[test]))
@@ -170,7 +170,7 @@ class BaseTestResult(object): # Breaks subclasses in 2.7 not inheriting object
         test = proto_test(test)
         if test.dotted_name in self.stderr_errput:
             self.stream.write(
-                "\n{} for {}\n{}".format(
+                "\n{0} for {1}\n{2}".format(
                     self.colors.yellow('Captured stderr'),
                     self.colors.bold(test.dotted_name),
                     self.stderr_errput[test]))
@@ -423,14 +423,14 @@ class GreenTestResult(BaseTestResult):
         stats = []
         for obj_list, name, color_func in results:
             if obj_list:
-                stats.append("{}={}".format(name, color_func(str(len(obj_list)))))
+                stats.append("{0}={1}".format(name, color_func(str(len(obj_list)))))
         if not stats:
             self.stream.writeln(self.colors.passing("No Tests Found"))
         else:
             grade = self.colors.passing('OK')
             if self.errors or self.failures:
                 grade = self.colors.failing('FAILED')
-            self.stream.writeln("{} ({})".format(grade, ', '.join(stats)))
+            self.stream.writeln("{0} ({1})".format(grade, ', '.join(stats)))
 
 
     def startTest(self, test):
@@ -582,7 +582,7 @@ class GreenTestResult(BaseTestResult):
         # Skipped Test Report
         if not self.args.no_skip_report:
             for test, reason in self.skipped:
-                self.stream.writeln("\n{} {} - {}".format(
+                self.stream.writeln("\n{0} {1} - {2}".format(
                     self.colors.blue('Skipped'),
                     self.colors.bold(test.dotted_name),
                     reason))
@@ -604,8 +604,8 @@ class GreenTestResult(BaseTestResult):
             # Frame Line
             relevant_frames = []
             for i, frame in enumerate(err.traceback_lines):
-                debug('\n' + '*' * 30 + "Frame {}:".format(i) + '*' * 30
-                      + "\n{}".format(self.colors.yellow(frame)), level = 3)
+                debug('\n' + '*' * 30 + "Frame {0}:".format(i) + '*' * 30
+                      + "\n{0}".format(self.colors.yellow(frame)), level = 3)
                 # Ignore useless frames
                 if self.verbose < 4:
                     if frame.strip() == "Traceback (most recent call last):":

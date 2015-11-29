@@ -96,29 +96,29 @@ class ConfigBase(unittest.TestCase):
         self.default_termcolor = True
         self._write_file(self.default_filename,
                         ["# this is a test config file for green",
-                         "logging = {}".format(str(self.default_logging)),
-                         "version = {}".format(str(self.default_version)),
-                         "omit-patterns = {}".format(self.default_filename),
-                         "failfast = {}".format(str(self.default_failfast)),
-                         "termcolor = {}".format(str(self.default_termcolor)),
+                         "logging = {0}".format(str(self.default_logging)),
+                         "version = {0}".format(str(self.default_version)),
+                         "omit-patterns = {0}".format(self.default_filename),
+                         "failfast = {0}".format(str(self.default_failfast)),
+                         "termcolor = {0}".format(str(self.default_termcolor)),
                          ])
         self.env_filename = os.path.join(self.tmpd, "green.env")
         self.env_logging = True
         self.env_no_skip_report = False
         self._write_file(self.env_filename,
                         ["# this is a test config file for green",
-                         "logging = {}".format(str(self.env_logging)),
-                         "omit-patterns = {}".format(self.env_filename),
-                         "no-skip-report = {}".format(self.env_no_skip_report),
+                         "logging = {0}".format(str(self.env_logging)),
+                         "omit-patterns = {0}".format(self.env_filename),
+                         "no-skip-report = {0}".format(self.env_no_skip_report),
                          ])
         self.cmd_filename = os.path.join(self.tmpd, "green.cmd")
         self.cmd_logging = False
         self.cmd_run_coverage = False
         self._write_file(self.cmd_filename,
                         ["# this is a test config file for green",
-                         "logging = {}".format(str(self.cmd_logging)),
-                         "omit-patterns = {}".format(self.cmd_filename),
-                         "run-coverage = {}".format(self.cmd_run_coverage),
+                         "logging = {0}".format(str(self.cmd_logging)),
+                         "omit-patterns = {0}".format(self.cmd_filename),
+                         "run-coverage = {0}".format(self.cmd_run_coverage),
                          ])
 
 
