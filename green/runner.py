@@ -3,9 +3,14 @@ from __future__ import print_function
 
 import multiprocessing
 from sys import modules
-from unittest.signals import (
-        registerResult, installHandler, removeResult)
 import warnings
+
+try:
+    from unittest2.signals import (
+            registerResult, installHandler, removeResult)
+except ImportError:
+    from unittest.signals import (
+            registerResult, installHandler, removeResult)
 
 try: # pragma: no cover
     import coverage

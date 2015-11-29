@@ -16,8 +16,9 @@ dependencies = [
 if sys.version_info[0] == 2:
     dependencies.append('mock')
 if sys.version_info < (2, 7):
-    dependencies.append('ordereddict')
     dependencies.append('importlib')
+    dependencies.append('ordereddict')
+    dependencies.append('unittest2')
 
 # Actual setup call
 setup(

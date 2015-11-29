@@ -3,7 +3,12 @@ from __future__ import print_function
 
 from fnmatch import fnmatch
 import sys
-from unittest.suite import _isnotsuite, TestSuite
+
+try:
+    from unittest2.suite import _isnotsuite, TestSuite
+except ImportError:
+    from unittest.suite import _isnotsuite, TestSuite
+
 try:
     from io import StringIO
 except: # pragma: no cover

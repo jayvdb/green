@@ -10,7 +10,10 @@ try:
 except ImportError:
     from ordereddict import OrderedDict
 
-from unittest.result import failfast
+try:
+    from unittest2.result import failfast
+except ImportError:
+    from unittest.result import failfast
 
 from green.output import Colors, debug
 from green.terminal import getTerminalSize
