@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from builtins import str
 
 from fnmatch import fnmatch
 import functools
@@ -7,10 +8,7 @@ import importlib
 import os
 import re
 import sys
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 import traceback
 
 try:
@@ -18,12 +16,23 @@ try:
 except ImportError:
     from ordereddict import OrderedDict
 
+try:
+    from functools import cmp_to_key
+except ImportError:
+    from py26compat import cmp_to_key
+
+try:
+    import unittest2
+except ImportError:
+    unittest2 = None
+
 from green.output import debug
 from green.result import proto_test
 from green.suite import GreenTestSuite
 
 python_file_pattern = re.compile(r'^[_a-z]\w*?\.py$', re.IGNORECASE)
 python_dir_pattern  = re.compile(r'^[_a-z]\w*?$', re.IGNORECASE)
+
 
 
 def toProtoTestList(suite, test_list=None, doing_completions=False):
@@ -71,7 +80,7 @@ def toParallelTargets(suite, targets):
     # Get the list of user-specified targets that are NOT modules
     non_module_targets = []
     for target in targets:
-        if not list(filter(None, [target in x for x in modules])):
+        if not list([_f for _f in [target in x for x in modules] if _f]):
             non_module_targets.append(target)
     # Main loop -- iterating through all loaded test methods
     parallel_targets = []
@@ -187,17 +196,15 @@ def isTestCaseDisabled(test_case_class, method_name):
 
 def loadFromTestCase(test_case_class):
     debug("Examining test case {0}".format(test_case_class.__name__), 3)
-    test_case_names = list(filter(
-        lambda attrname: (attrname.startswith('test') and
+    test_case_names = list([attrname for attrname in dir(test_case_class) if (attrname.startswith('test') and
                           callable(getattr(test_case_class, attrname)) and
-                          not isTestCaseDisabled(test_case_class, attrname)),
-        dir(test_case_class)))
+                          not isTestCaseDisabled(test_case_class, attrname))])
     debug("Test case names: {0}".format(test_case_names))
     test_case_names.sort(
-            key=functools.cmp_to_key(lambda x, y: (x > y) - (x < y)))
+            key=cmp_to_key(lambda x, y: (x > y) - (x < y)))
     if not test_case_names and hasattr(test_case_class, 'runTest'):
         test_case_names = ['runTest']
-    return GreenTestSuite(map(test_case_class, test_case_names))
+    return GreenTestSuite(list(map(test_case_class, test_case_names)))
 
 
 def loadFromModule(module):
@@ -205,7 +212,7 @@ def loadFromModule(module):
     test_cases = []
     for item in dir(module):
         obj = getattr(module, item)
-        if isinstance(obj, type) and issubclass(obj, unittest.case.TestCase):
+        if isinstance(obj, type) and issubclass(obj, unittest.TestCase):
             test_cases.append(loadFromTestCase(obj))
     return GreenTestSuite(test_cases)
 
@@ -220,7 +227,7 @@ def loadFromModuleFilename(filename):
         __import__(dotted_module)
         loaded_module = sys.modules[dotted_module]
         debug("Imported {0}".format(dotted_module), 2)
-    except unittest.case.SkipTest as e:
+    except unittest.SkipTest as e:
         # TODO: #25 - Right now this mimics the behavior in unittest.  Lets
         # refactor it and simplify it after we make sure it works.
         # This is a cause of the traceback mangling I observed.
@@ -230,7 +237,7 @@ def loadFromModuleFilename(filename):
             pass # pragma: no cover
         TestClass = type(
                 str("ModuleSkipped"),
-                (unittest.case.TestCase,),
+                (unittest.TestCase,),
                 {filename: testSkipped})
         return GreenTestSuite((TestClass(filename),))
     except:
@@ -243,7 +250,7 @@ def loadFromModuleFilename(filename):
             raise ImportError(message)
         TestClass = type(
                 str("ModuleImportFailure"),
-                (unittest.case.TestCase,),
+                (unittest.TestCase,),
                 {filename: testFailure})
         return GreenTestSuite((TestClass(filename),))
     finally:
@@ -308,7 +315,7 @@ def loadTargets(targets, file_pattern='test*.py'):
     target_dict = OrderedDict()
     for target in targets:
         target_dict[target] = True
-    targets = target_dict.keys()
+    targets = list(target_dict.keys())
 
     suites = []
     for target in targets:
@@ -427,7 +434,7 @@ def loadTarget(target, file_pattern='test*.py'):
                 raise ImportError(message)
             TestClass = type(
                     str("ModuleImportFailure"),
-                    (unittest.case.TestCase,),
+                    (unittest.TestCase,),
                     {dotted_path: testFailure})
             return GreenTestSuite((TestClass(dotted_path),))
         if need_cleanup:
