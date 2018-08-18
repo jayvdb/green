@@ -31,6 +31,7 @@ setup(
         ':python_version=="2.7"': ['backports.shutil_get_terminal_size>=1.0.0'],
         # add here for PyPy3.3
         ':python_version=="3.3"': ['backports.shutil_get_terminal_size>=1.0.0'],
+        ':python_version=="3.2"': ['backports.shutil_get_terminal_size>=1.0.0'],
     },
     entry_points = {
         'console_scripts' : [
