@@ -57,8 +57,16 @@ matrix:
         - os: linux
           python: 'pypy3'
           language: python
+        - os: linux
+          python: 3.2
+          language: python
+        - os: linux
+          python: 3.3
+          language: python
 
     allow_failures:
         - python: "nightly"
         - python: 'pypy'
         - python: 'pypy3'
+        - python: 3.2
+        - python: 3.3
